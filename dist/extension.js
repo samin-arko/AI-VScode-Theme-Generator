@@ -36,11 +36,19 @@ __export(extension_exports, {
 module.exports = __toCommonJS(extension_exports);
 var vscode = __toESM(require("vscode"));
 function activate(context) {
-  console.log('Congratulations, your extension "ai-theme-generator" is now active!');
-  const disposable = vscode.commands.registerCommand("ai-theme-generator.helloWorld", () => {
-    vscode.window.showInformationMessage("Hello World from AI theme generator!");
+  console.log("AI Theme Generator is officially active!");
+  const generateThemeCommand = vscode.commands.registerCommand("ai-theme-generator.generate", async () => {
+    const userPrompt = await vscode.window.showInputBox({
+      placeHolder: "e.g., Neon Cyberpunk, Pastel Lavender, Dark Forest",
+      prompt: "What kind of theme vibe do you want to generate?"
+    });
+    if (!userPrompt) {
+      vscode.window.showWarningMessage("Theme generation cancelled.");
+      return;
+    }
+    vscode.window.showInformationMessage(`Generating your "${userPrompt}" theme colors...`);
   });
-  context.subscriptions.push(disposable);
+  context.subscriptions.push(generateThemeCommand);
 }
 function deactivate() {
 }
