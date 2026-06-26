@@ -1,4 +1,16 @@
+# Ignore local dependencies downloaded from npm
 node_modules/
+
+# Ignore the compiled JavaScript files
 out/
-.vscode-test/
+dist/
+
+# Ignore the dynamic AI-generated theme file written at runtime
+ai-generated-theme.json
+
+# Ignore temporary operating system or log files
+.DS_Store
+*.log
+
+# Ignore the temporary APIkey storing file
 apikey.txt
