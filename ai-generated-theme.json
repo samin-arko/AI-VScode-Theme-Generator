@@ -1,0 +1,12 @@
+{
+    "name": "AI Generated Theme",
+    "type": "dark",
+    "colors": {
+        "editor.background": "#0d1117",
+        "editor.foreground": "#58a6ff",
+        "activityBar.background": "#161b22",
+        "sideBar.background": "#161b22",
+        "statusBar.background": "#ff7b72",
+        "statusBar.foreground": "#000000"
+    }
+}

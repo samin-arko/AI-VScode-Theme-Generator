@@ -17,6 +17,13 @@
         "command": "ai-theme-generator.generate",
         "title": "AI Theme: Generate New Theme Vibe"
       }
+    ],
+    "themes": [
+      {
+        "label": "AI Generated Theme",
+        "uiTheme": "vs-dark",
+        "path": "./ai-generated-theme.json"
+      }
     ]
   },
   "scripts": {
