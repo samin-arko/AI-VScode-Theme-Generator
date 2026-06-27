@@ -1,14 +1,22 @@
 {
-  "name": "ai-theme-generator",
-  "displayName": "AI theme generator",
-  "description": "",
-  "version": "0.0.1",
+  "name": "saminarko-ai-theme-generator",
+  "displayName": "AI Custom Theme Generator",
+  "description": "Instantly changes your editor theme based on a simple prompt",
+  "publisher": "Saminarko",
+  "license": "MIT",
+  "version": "1.0.2",
   "engines": {
-    "vscode": "^1.125.0"
+    "vscode": "^1.90.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/samin-arko/AI-VScode-Theme-Generator.git"
   },
   "categories": [
-    "Other"
+    "Themes",
+    "AI"
   ],
+  "icon": "icon.png",
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
@@ -22,7 +30,7 @@
       {
         "label": "AI Generated Theme",
         "uiTheme": "vs-dark",
-        "path": "./ai-generated-theme.json"
+        "path": "./theme-placeholder.json"
       }
     ]
   },
@@ -43,7 +51,7 @@
   "devDependencies": {
     "@types/mocha": "^10.0.10",
     "@types/node": "24.x",
-    "@types/vscode": "^1.125.0",
+    "@types/vscode": "^1.90.0",
     "@vscode/test-cli": "^0.0.15",
     "@vscode/test-electron": "^3.0.0",
     "esbuild": "^0.28.1",

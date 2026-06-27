@@ -5,12 +5,8 @@ node_modules/
 out/
 dist/
 
-# Ignore the dynamic AI-generated theme file written at runtime
-ai-generated-theme.json
-
 # Ignore temporary operating system or log files
 .DS_Store
 *.log
 
-# Ignore the temporary APIkey storing file
-apikey.txt
+saminarko-ai-theme-generator-1.0.2.vsix

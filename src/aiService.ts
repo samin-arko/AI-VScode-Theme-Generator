@@ -1,15 +1,12 @@
 import { GoogleGenAI, Type } from '@google/genai';
 
-// Define the schema once here, keeping it hidden from the extension lifecycle
 const ThemeSchema = {
     type: Type.OBJECT,
     properties: {
-        // UI Structural Layers
         background: { type: Type.STRING, description: "Deep dark background" },
         sidebar: { type: Type.STRING, description: "Slightly darker contrast background for menus" },
         activeLine: { type: Type.STRING, description: "Subtle highlight color for the current active line row" },
 
-        // Code Syntax Anchors
         foreground: { type: Type.STRING, description: "Standard text color (usually white/off-white)" },
         comments: { type: Type.STRING, description: "Muted color for code comments" },
         keywords: { type: Type.STRING, description: "Vibrant color for flow statements like if, return, for" },
