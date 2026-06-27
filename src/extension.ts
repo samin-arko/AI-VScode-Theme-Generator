@@ -63,7 +63,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 			const themeContent = {
 				name: "AI Generated Theme",
-				type: "dark",
+				type: "themeTypeToken",
 				colors: {
 					// Massive UI Chrome coverage from just 3 structural anchors!
 					"editor.background": generatedColors.background,

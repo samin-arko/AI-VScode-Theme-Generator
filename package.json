@@ -15,7 +15,7 @@
     "commands": [
       {
         "command": "ai-theme-generator.generate",
-        "title": "AI Theme: Generate New Theme Vibe"
+        "title": "AI Theme: Generate a New Theme"
       }
     ],
     "themes": [
