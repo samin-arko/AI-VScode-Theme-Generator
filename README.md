@@ -1,4 +1,4 @@
-# ai-theme-generator
+# AI Theme Generator (VS Code Extension)
 
 A VS Code extension that generates a new editor theme based on text descriptions using Google Gemini AI.
 
