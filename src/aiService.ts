@@ -4,12 +4,19 @@ import { GoogleGenAI, Type } from '@google/genai';
 const ThemeSchema = {
     type: Type.OBJECT,
     properties: {
-        background: { type: Type.STRING, description: "Dark hex color code for code editor background" },
-        foreground: { type: Type.STRING, description: "Bright hex color code for readable text" },
-        sidebar: { type: Type.STRING, description: "Hex color code for the side menus and activity bars" },
-        accent: { type: Type.STRING, description: "Highly contrasting vibrant accent hex color code" }
+        // UI Structural Layers
+        background: { type: Type.STRING, description: "Deep dark background" },
+        sidebar: { type: Type.STRING, description: "Slightly darker contrast background for menus" },
+        activeLine: { type: Type.STRING, description: "Subtle highlight color for the current active line row" },
+
+        // Code Syntax Anchors
+        foreground: { type: Type.STRING, description: "Standard text color (usually white/off-white)" },
+        comments: { type: Type.STRING, description: "Muted color for code comments" },
+        keywords: { type: Type.STRING, description: "Vibrant color for flow statements like if, return, for" },
+        functions: { type: Type.STRING, description: "Color for function declarations and calls" },
+        strings: { type: Type.STRING, description: "Distinct color for string literals and quotes" }
     },
-    required: ["background", "foreground", "sidebar", "accent"],
+    required: ["background", "sidebar", "activeLine", "foreground", "comments", "keywords", "functions", "strings"],
 };
 
 /**
@@ -17,12 +24,13 @@ const ThemeSchema = {
  * @param userPrompt The string describing the theme vibe.
  * @param apiKey The secured API key retrieved from VS Code's secrets vault.
  */
-export async function generateThemeColors(userPrompt: string, apiKey: string) {
+export async function generateThemeColors(userPrompt: string, apiKey: string, themeType: string) {
     const ai = new GoogleGenAI({ apiKey });
 
     const response = await ai.models.generateContent({
         model: 'gemini-2.5-flash',
-        contents: `Generate a gorgeous, highly cohesive color palette for a code editor based entirely on this theme description: "${userPrompt}".`,
+        contents: `Generate a gorgeous, highly cohesive color palette for a code editor. 
+                   The theme type MUST be exclusively a ${themeType} theme based on this vibe: "${userPrompt}"`,
         config: {
             responseMimeType: "application/json",
             responseSchema: ThemeSchema,

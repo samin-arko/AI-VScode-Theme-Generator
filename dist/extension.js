@@ -43503,18 +43503,25 @@ function getApiKeyFromEnv() {
 var ThemeSchema = {
   type: Type.OBJECT,
   properties: {
-    background: { type: Type.STRING, description: "Dark hex color code for code editor background" },
-    foreground: { type: Type.STRING, description: "Bright hex color code for readable text" },
-    sidebar: { type: Type.STRING, description: "Hex color code for the side menus and activity bars" },
-    accent: { type: Type.STRING, description: "Highly contrasting vibrant accent hex color code" }
+    // UI Structural Layers
+    background: { type: Type.STRING, description: "Deep dark background" },
+    sidebar: { type: Type.STRING, description: "Slightly darker contrast background for menus" },
+    activeLine: { type: Type.STRING, description: "Subtle highlight color for the current active line row" },
+    // Code Syntax Anchors
+    foreground: { type: Type.STRING, description: "Standard text color (usually white/off-white)" },
+    comments: { type: Type.STRING, description: "Muted color for code comments" },
+    keywords: { type: Type.STRING, description: "Vibrant color for flow statements like if, return, for" },
+    functions: { type: Type.STRING, description: "Color for function declarations and calls" },
+    strings: { type: Type.STRING, description: "Distinct color for string literals and quotes" }
   },
-  required: ["background", "foreground", "sidebar", "accent"]
+  required: ["background", "sidebar", "activeLine", "foreground", "comments", "keywords", "functions", "strings"]
 };
-async function generateThemeColors(userPrompt, apiKey) {
+async function generateThemeColors(userPrompt, apiKey, themeType) {
   const ai = new GoogleGenAI2({ apiKey });
   const response = await ai.models.generateContent({
     model: "gemini-2.5-flash",
-    contents: `Generate a gorgeous, highly cohesive color palette for a code editor based entirely on this theme description: "${userPrompt}".`,
+    contents: `Generate a gorgeous, highly cohesive color palette for a code editor. 
+                   The theme type MUST be exclusively a ${themeType} theme based on this vibe: "${userPrompt}"`,
     config: {
       responseMimeType: "application/json",
       responseSchema: ThemeSchema
@@ -43544,6 +43551,11 @@ function activate(context) {
       await context.secrets.store("gemini-api-key", apiKey);
       vscode.window.showInformationMessage("API Key saved securely!");
     }
+    const selectedType = await vscode.window.showQuickPick(["Dark Theme", "Light Theme"], {
+      placeHolder: "Choose the fundamental base layout style for your AI theme"
+    });
+    if (!selectedType) return;
+    const themeTypeToken = selectedType === "Dark Theme" ? "dark" : "light";
     const userPrompt = await vscode.window.showInputBox({
       placeHolder: "e.g., Neon Cyberpunk, Pastel Lavender, Dark Forest",
       prompt: "What kind of theme vibe do you want to generate?"
@@ -43554,24 +43566,59 @@ function activate(context) {
     }
     vscode.window.showInformationMessage(`Generating your "${userPrompt}" theme colors...`);
     try {
-      console.log("================= MY AI PROMPT =================");
-      console.log(userPrompt);
-      console.log("================================================");
-      const generatedColors = await generateThemeColors(userPrompt, apiKey);
-      console.log("================= GEMINI RESPONSE =================");
-      console.log(JSON.stringify(generatedColors, null, 2));
-      console.log("===================================================");
+      const generatedColors = await generateThemeColors(userPrompt, apiKey, themeTypeToken);
       const themeContent = {
         name: "AI Generated Theme",
         type: "dark",
         colors: {
+          // Massive UI Chrome coverage from just 3 structural anchors!
           "editor.background": generatedColors.background,
           "editor.foreground": generatedColors.foreground,
+          "editor.lineHighlightBackground": generatedColors.activeLine,
           "activityBar.background": generatedColors.sidebar,
           "sideBar.background": generatedColors.sidebar,
-          "statusBar.background": generatedColors.accent,
-          "statusBar.foreground": "#000000"
-        }
+          "sideBarSectionHeader.background": generatedColors.background,
+          "statusBar.background": generatedColors.keywords,
+          // Use keyword color as UI pop
+          "statusBar.foreground": generatedColors.background,
+          "titleBar.activeBackground": generatedColors.sidebar,
+          "tab.activeBackground": generatedColors.background,
+          "tab.inactiveBackground": generatedColors.sidebar
+        },
+        tokenColors: [
+          // Standard TextMate scopes mapping code constructs across ALL languages
+          {
+            name: "Comments",
+            scope: ["comment", "punctuation.definition.comment"],
+            settings: { foreground: generatedColors.comments, fontStyle: "italic" }
+          },
+          {
+            name: "Keywords & Flow Control",
+            scope: ["keyword", "storage.type", "storage.modifier"],
+            settings: { foreground: generatedColors.keywords, fontStyle: "bold" }
+          },
+          {
+            name: "Strings",
+            scope: ["string", "punctuation.definition.string"],
+            settings: { foreground: generatedColors.strings }
+          },
+          {
+            name: "Functions & Methods",
+            scope: ["entity.name.function", "support.function", "meta.function-call"],
+            settings: { foreground: generatedColors.functions }
+          },
+          {
+            name: "Variables & Parameters",
+            scope: ["variable", "meta.parameter"],
+            settings: { foreground: generatedColors.foreground }
+          },
+          {
+            name: "Constants & Numbers",
+            scope: ["constant.numeric", "constant.language", "support.constant"],
+            settings: { foreground: generatedColors.functions }
+            // Re-use colors cohesively
+          }
+        ]
       };
       const themeFilePath = path2.join(context.extensionPath, "ai-generated-theme.json");
       fs3.writeFileSync(themeFilePath, JSON.stringify(themeContent, null, 4), "utf8");

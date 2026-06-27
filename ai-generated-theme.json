@@ -2,11 +2,83 @@
     "name": "AI Generated Theme",
     "type": "dark",
     "colors": {
-        "editor.background": "#1A2C2A",
-        "editor.foreground": "#C7D4C8",
-        "activityBar.background": "#2A3F3B",
-        "sideBar.background": "#2A3F3B",
-        "statusBar.background": "#E07A5F",
-        "statusBar.foreground": "#000000"
-    }
+        "editor.background": "FEFDF9",
+        "editor.foreground": "3E3A3B",
+        "editor.lineHighlightBackground": "FCEADF",
+        "activityBar.background": "FEFDF9",
+        "sideBar.background": "F7F4EF",
+        "sideBarSectionHeader.background": "FEFDF9",
+        "statusBar.background": "D17058",
+        "statusBar.foreground": "FEFDF9",
+        "titleBar.activeBackground": "F7F4EF",
+        "tab.activeBackground": "FEFDF9",
+        "tab.inactiveBackground": "F7F4EF"
+    },
+    "tokenColors": [
+        {
+            "name": "Comments",
+            "scope": [
+                "comment",
+                "punctuation.definition.comment"
+            ],
+            "settings": {
+                "foreground": "8E8687",
+                "fontStyle": "italic"
+            }
+        },
+        {
+            "name": "Keywords & Flow Control",
+            "scope": [
+                "keyword",
+                "storage.type",
+                "storage.modifier"
+            ],
+            "settings": {
+                "foreground": "D17058",
+                "fontStyle": "bold"
+            }
+        },
+        {
+            "name": "Strings",
+            "scope": [
+                "string",
+                "punctuation.definition.string"
+            ],
+            "settings": {
+                "foreground": "B8A562"
+            }
+        },
+        {
+            "name": "Functions & Methods",
+            "scope": [
+                "entity.name.function",
+                "support.function",
+                "meta.function-call"
+            ],
+            "settings": {
+                "foreground": "7C96A8"
+            }
+        },
+        {
+            "name": "Variables & Parameters",
+            "scope": [
+                "variable",
+                "meta.parameter"
+            ],
+            "settings": {
+                "foreground": "3E3A3B"
+            }
+        },
+        {
+            "name": "Constants & Numbers",
+            "scope": [
+                "constant.numeric",
+                "constant.language",
+                "support.constant"
+            ],
+            "settings": {
+                "foreground": "7C96A8"
+            }
+        }
+    ]
 }
