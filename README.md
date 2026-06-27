@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # AI Theme Generator (VS Code Extension)
+=======
+## AI Theme Generator (VS Code Extension)
+>>>>>>> 0046ddd (Edit README.md)
 
 A VS Code extension that generates a new editor theme based on text descriptions using Google Gemini AI.
 
